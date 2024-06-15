@@ -1,10 +1,10 @@
 # Stage 1: Build the Angular application
-FROM node:14 AS build
+FROM node:20 AS build
 
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json if available
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm install
@@ -19,13 +19,13 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the build output to replace the default nginx contents
-COPY --from=build /usr/src/app/dist/sample-angular-project /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/amit-angular-project /usr/share/nginx/html
 
 # Remove default nginx static content
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy nginx configuration
-COPY nginx-custom.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
