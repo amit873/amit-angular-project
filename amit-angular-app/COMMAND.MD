@@ -3,7 +3,7 @@ docker build -t amit-angular-app:v1 .
 
 # Run Docker Container
 docker run -d -p 4200:4200 amit-angular-app:v1 <br/>
-docker run -d -p 80:4200 amit-angular-app:v1
+docker run -d -p 80:4200 amit-angular-app:v1 <br/>
 docker run -d -p 8080:4200 amit-angular-app:v1
 
 # Check Running Containers
