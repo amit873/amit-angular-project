@@ -1,0 +1,59 @@
+# Ignore .dockerignore itself
+.dockerignore
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore Readme files
+README.md
+COMMAND.MD
+
+# Ignore temporary files
+*.tmp
+*.log
+
+# Ignore Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Ignore node_modules directory
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Ignore IDE/editor files
+.idea
+*.swp
+.angular
+.editorconfig
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
