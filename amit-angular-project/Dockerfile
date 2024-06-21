@@ -1,6 +1,7 @@
 # Stage 1: Build the Angular application
 FROM node:20 AS build
 
+# Set Working Directory
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json if available
@@ -19,7 +20,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the build output to replace the default nginx contents
-COPY --from=build /usr/src/app/dist/amit-angular-project /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/amit-angular-project/browser /usr/share/nginx/html
 
 # Remove default nginx static content
 RUN rm -rf /usr/share/nginx/html/*
