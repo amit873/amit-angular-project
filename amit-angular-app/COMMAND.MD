@@ -26,3 +26,12 @@ docker rm -f $(docker ps -a -q)
 
 # Delete All Images
 docker rmi $(docker images -q)
+
+# Tag the image with Docker Hub username and repository name
+docker tag amit-angular-app:v1 ameintu/amit-angular-app:v1
+
+# Log in to Docker Hub account 
+docker login
+
+# Push the tagged image to Docker Hub
+docker push ameintu/amit-angular-app:v1
