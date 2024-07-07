@@ -1,0 +1,9 @@
+stages:
+  - build
+  - push
+  - deploy
+
+include:
+  - local: 'template/build.yml'
+  - local: 'template/push.yml'
+  - local: 'template/deploy.yml'

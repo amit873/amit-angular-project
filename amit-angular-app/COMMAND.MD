@@ -2,9 +2,9 @@
 docker build -t amit-angular-app:v1 .
 
 # Run Docker Container
-docker run -d -p 4200:4200 amit-angular-app:v1 <br/>
-docker run -d -p 80:4200 amit-angular-app:v1 <br/>
-docker run -d -p 8080:4200 amit-angular-app:v1
+docker run -d -p 4200:4200 --name=amit-angular-app amit-angular-app:v1
+docker run -d -p 80:4200 --name=amit-angular-app amit-angular-app:v1
+docker run -d -p 8080:4200 --name=amit-angular-app amit-angular-app:v1
 
 # Check Running Containers
 docker ps
@@ -35,3 +35,13 @@ docker login
 
 # Push the tagged image to Docker Hub
 docker push ameintu/amit-angular-app:v1
+
+# Pull Image from Docker Hub
+docker pull ameintu/amit-angular-app:v1
+
+# Pull nginx hello Image from Docker Hub
+docker pull nginxdemos/hello:latest
+
+# Run Docker Container 
+docker run -d -p 4200:4200 --name=amit-angular-app ameintu/amit-angular-app:v1
+
