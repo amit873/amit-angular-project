@@ -45,3 +45,10 @@ docker pull nginxdemos/hello:latest
 # Run Docker Container 
 docker run -d -p 4200:4200 --name=amit-angular-app ameintu/amit-angular-app:v1
 
+##### Export the Image as Root User and Import as ec2-user
+# As root user
+podman save -o angular-app.tar angular-app:latest
+chown ec2-user:ec2-user angular-app.tar
+# Switch to ec2-user
+su - ec2-user
+podman load -i angular-app.tar
