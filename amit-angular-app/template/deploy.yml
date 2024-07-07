@@ -1,20 +1,36 @@
 deploy:
   stage: deploy
+  image: python:3.9-alpine
   image: docker:latest
   services:
     - docker:dind
   before_script:
     - apk add --no-cache python3 py3-pip
-    - pip3 install awscli
-    - export PATH=$PATH:/root/.local/bin
+    - python3 -m venv /path/to/venv
+    - . /path/to/venv/bin/activate
+    - pip install awscli
+    - export PATH=$PATH:/path/to/venv/bin
+    - docker info || true  # Attempt to get Docker info, ignoring errors
+    - which docker  # Check if Docker executable is found in PATH
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_IMAGE: amit-angular-gitlab-app:latest
-    ECR_REGISTRY: <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com
+    ECR_REGISTRY: 815069173207.dkr.ecr.us-east-1.amazonaws.com
     ECR_REPOSITORY: amit-angular-gitlab-app
   script:
-    - $(aws ecr get-login --no-include-email --region <your-region>)
+    - echo "Logging in to AWS ECR"
+    - echo "$DOCKER_IMAGE"
+    - echo "$ECR_REGISTRY"
+    - echo "$ECR_REPOSITORY"
+    - echo "$CI_COMMIT_SHA"    
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+    - echo "Loading Docker image $DOCKER_IMAGE from artifact"
+    - docker load < $CI_PROJECT_DIR/amit-angular-gitlab-app.tar
+    - echo "Tagging Docker image as $ECR_REGISTRY/$ECR_REPOSITORY:$CI_COMMIT_SHA"
     - docker tag $DOCKER_IMAGE $ECR_REGISTRY/$ECR_REPOSITORY:$CI_COMMIT_SHA
+    - echo "Pushing Docker image to AWS ECR- $ECR_REGISTRY/$ECR_REPOSITORY:$CI_COMMIT_SHA"
     - docker push $ECR_REGISTRY/$ECR_REPOSITORY:$CI_COMMIT_SHA
+    - echo "Tagging Docker image as $ECR_REGISTRY/$ECR_REPOSITORY:latest"
     - docker tag $DOCKER_IMAGE $ECR_REGISTRY/$ECR_REPOSITORY:latest
+    - echo "Pushing Docker image to AWS ECR - $ECR_REGISTRY/$ECR_REPOSITORY:latest"
     - docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest

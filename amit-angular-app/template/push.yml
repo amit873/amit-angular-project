@@ -5,7 +5,15 @@ push:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
+    DOCKER_IMAGE: amit-angular-gitlab-app:latest
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker tag $DOCKER_IMAGE $CI_REGISTRY/$CI_PROJECT_PATH/$DOCKER_IMAGE
-    - docker push $CI_REGISTRY/$CI_PROJECT_PATH/$DOCKER_IMAGE
+    - echo "Logging in to Docker Hub"
+    - echo "$DOCKER_HUB_USERNAME"
+    - echo "$DOCKER_HUB_PASSWORD"
+    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+    - echo "Loading Docker image $DOCKER_IMAGE from artifact"
+    - docker load < $CI_PROJECT_DIR/amit-angular-gitlab-app.tar
+    - echo "Tagging Docker image as ameintu/$DOCKER_IMAGE"
+    - docker tag $DOCKER_IMAGE ameintu/$DOCKER_IMAGE
+    - echo "Pushing Docker image to Docker Hub - ameintu/$DOCKER_IMAGE"
+    - docker push ameintu/$DOCKER_IMAGE

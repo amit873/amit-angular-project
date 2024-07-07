@@ -6,6 +6,13 @@ docker run -d -p 4200:4200 --name=amit-angular-app amit-angular-app:v1
 docker run -d -p 80:4200 --name=amit-angular-app amit-angular-app:v1
 docker run -d -p 8080:4200 --name=amit-angular-app amit-angular-app:v1
 
+# Check Current ulimit
+ulimit -n
+
+# Run the Docker Container with --ulimit 
+docker run --ulimit nofile=65536:65536 -d your-angular-app
+
+
 # Check Running Containers
 docker ps
 
@@ -52,3 +59,7 @@ chown ec2-user:ec2-user angular-app.tar
 # Switch to ec2-user
 su - ec2-user
 podman load -i angular-app.tar
+
+# Clear npm Cache if needed
+npm cache clean --force
+
