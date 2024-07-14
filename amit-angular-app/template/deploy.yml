@@ -10,13 +10,13 @@ deploy:
     - . /path/to/venv/bin/activate
     - pip install awscli
     - export PATH=$PATH:/path/to/venv/bin
-    - docker info || true  # Attempt to get Docker info, ignoring errors
+    - until docker info; do sleep 10; done    #- docker info || true  # Attempt to get Docker info, ignoring errors
     - which docker  # Check if Docker executable is found in PATH
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_IMAGE: amit-angular-gitlab-app:latest
-    ECR_REGISTRY: 815069173207.dkr.ecr.us-east-1.amazonaws.com
-    ECR_REPOSITORY: amit-angular-gitlab-app
+    #DOCKER_IMAGE: amit-angular-gitlab-app:latest
+    #ECR_REGISTRY: <aws-account>.dkr.ecr.us-east-1.amazonaws.com
+    #ECR_REPOSITORY: amit-angular-gitlab-app
   script:
     - echo "Logging in to AWS ECR"
     - echo "$DOCKER_IMAGE"

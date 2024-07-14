@@ -38,7 +38,7 @@ docker rmi $(docker images -q)
 docker tag amit-angular-app:v1 ameintu/amit-angular-app:v1
 
 # Log in to Docker Hub account 
-docker login
+docker login -u ameintu
 
 # Push the tagged image to Docker Hub
 docker push ameintu/amit-angular-app:v1
@@ -63,3 +63,15 @@ podman load -i angular-app.tar
 # Clear npm Cache if needed
 npm cache clean --force
 
+##### Push Docker Image to AWS ECR
+# Build Docker Image
+docker build -t amit-angular-app .
+
+# Retrieve an Authentication Token and Authenticate Docker client to AWS ECR Registry
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 815069173207.dkr.ecr.us-east-1.amazonaws.com
+
+# Tag docker image to push the image to AWS ECR Repository
+docker tag amit-angular-app:latest 815069173207.dkr.ecr.us-east-1.amazonaws.com/amit-angular-app:latest
+
+# Push the image to AWS ECR Repository
+docker push 815069173207.dkr.ecr.us-east-1.amazonaws.com/amit-angular-app:latest

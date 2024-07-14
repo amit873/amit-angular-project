@@ -5,7 +5,7 @@ push:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_IMAGE: amit-angular-gitlab-app:latest
+    # DOCKER_IMAGE: amit-angular-gitlab-app:latest
   script:
     - echo "Logging in to Docker Hub"
     - echo "$DOCKER_HUB_USERNAME"
